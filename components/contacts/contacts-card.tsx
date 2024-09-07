@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 interface CardProps {
@@ -11,8 +12,12 @@ interface CardProps {
 }
 
 const ContactsCard: React.FC<CardProps> = ({ contacts }) => {
+  const router = useRouter();
+  const handleCardClick = () => {
+    router.push(`/contacts/${contacts.id}`); 
+  };
   return (
-    <div className="card bg-base-100 shadow-xl rounded-lg overflow-hidden w-80"> 
+    <div onClick={handleCardClick} className="card bg-base-100 shadow-xl rounded-lg overflow-hidden w-80 cursor-pointer"> 
       <div className="relative w-full h-48"> 
         <img 
           src={contacts.image} 

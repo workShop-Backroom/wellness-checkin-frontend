@@ -5,9 +5,13 @@ export interface Contact {
     lastCall: string;
     callType: string;
     close: boolean;
+    phone: string;
+    email: string;
+    address: string;
+    bio: string;
   }
   
-export const contactsData: Contact[] = [
+  export const contactsData: Contact[] = [
     {
       id: "1",
       name: 'John Doe',
@@ -15,6 +19,10 @@ export const contactsData: Contact[] = [
       lastCall: '2023-02-01',
       callType: 'Human',
       close: false,
+      phone: '123-456-7890',
+      email: 'john.doe@example.com',
+      address: '123 Main St, Hometown, USA',
+      bio: 'John is a software developer with a passion for coding and gaming. He enjoys exploring new technologies and building innovative projects in his free time.'
     },
     {
       id: "2",
@@ -23,7 +31,10 @@ export const contactsData: Contact[] = [
       lastCall: '2024-05-01',
       callType: 'AI',
       close: true,
-  
+      phone: 'N/A',
+      email: 'N/A',
+      address: 'N/A',
+      bio: 'Jane Doe AI is a character based on the real Jane Doe. This AI character can interact with you using a cloned voice and simulate conversations as the real Jane would.'
     },
     {
       id: "3",
@@ -32,13 +43,21 @@ export const contactsData: Contact[] = [
       lastCall: '2024-02-01',
       callType: 'AI',
       close: false,
+      phone: 'N/A',
+      email: 'N/A',
+      address: 'N/A',
+      bio: 'Jansse Smith AI is a simulation of Jansse, designed to replicate his mannerisms and voice using advanced AI technology. Interactions with this AI are not real but based on data collected from the real Jansse.'
     },
     {
-        id: "4",
-        name: 'Andy Wu',
-        image: 'https://media.istockphoto.com/id/1288538088/photo/portrait-young-confident-smart-asian-businessman-look-at-camera-and-smile.jpg?b=1&s=612x612&w=0&k=20&c=r6yIXD9qE6vwqcg3-5iIxL6v3O_lV75oLpDTDQn-o8Y=',
-        lastCall: '2024-02-01',
-        callType: 'AI',
-        close: true,
-      }
+      id: "4",
+      name: 'Andy Wu',
+      image: 'https://media.istockphoto.com/id/1288538088/photo/portrait-young-confident-smart-asian-businessman-look-at-camera-and-smile.jpg?b=1&s=612x612&w=0&k=20&c=r6yIXD9qE6vwqcg3-5iIxL6v3O_lV75oLpDTDQn-o8Y=',
+      lastCall: '2024-02-01',
+      callType: 'AI',
+      close: true,
+      phone: 'N/A',
+      email: 'N/A',
+      address: 'N/A',
+      bio: 'Andy Wu AI is a replica of Andy, created using machine learning algorithms. The AI mimics Andy\'s voice, allowing for interactive but simulated conversations.'
+    }
   ];
