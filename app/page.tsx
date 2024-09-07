@@ -1,73 +1,56 @@
+
 "use client"
-import ContactsCard from "@/components/contacts/contacts-card";
-import Navbar from "@/components/ui/navbar";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+import Navbar from '@/components/ui/navbar';
+import ContactsCard from '@/components/contacts/contacts-card';
+import CatchUpCard from '@/components/contacts/catch-up-card'; // Assuming you have this component from the previous instructions
+import { Contact, contactsData } from '@/constants';
 
-interface Contact {
-  id: string;
-  name: string;
-  image: string;
-  lastCall: string;
-}
-
-const contactsData: Contact[] = [
-  {
-    id: "1",
-    name: 'John Doe',
-    image: 'https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    lastCall: '2023-02-01'
-  },
-  {
-    id: "2",
-    name: 'Jane Doe',
-    image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    lastCall: '2024-05-01'
-  },
-  {
-    id: "3",
-    name: 'Jansse Smith',
-    image: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUTEhIVFRUXGBcVFxUVFRUVFRUXFRUXFxUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMsNygtMCsBCgoKDg0OGxAQGi0lICAtLS0tLS0tLS0tLSstKy0tLS0tLS0rLS0tLS0tLTUtLS0tLS0tLS0tLS0tLS0tLS0tK//AABEIARMAtwMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAEAAIDBQYBBwj/xABBEAABAwIEAwQHBQcDBAMAAAABAAIRAyEEBRIxQVFxBiJhgRMjMpGhsfBCUnLB0QcUFTOCosJikuEWJEOy0uLx/8QAGgEAAwEBAQEAAAAAAAAAAAAAAQIDAAQFBv/EADERAAICAQMBBgQFBQEAAAAAAAABAhEDEiExQQQTIjJhcQUjUZGBobHB0UJS4fDxcv/aAAwDAQACEQMRAD8Awhb8kBnze57lZkfJBZ8z1Z8vyTvgyMu8rhaeSTt041CkMMK4ulcCwDoCPyhnf8ihKAuFbZa31h/CUGFIqKm56lNClqNuepTWi6YAmhWWFxtYaWteQ2RabIVzbIvLo1DqtW5uh652dpTRBO8KkzB+J9J3NOmYWm7Ns9SOiz+YYxzHu7oibTxKpLgOFXJhFHFgU5qAAixhBYjOKYcIEtcYBUDqjiHagIAv8UAzDwGS0aQ6Wn66oa2V7mPIZm1P1lM+IWp7Ns/7gdFnc4b36XULT9n2+vHRM/Mc39JsqgQ70TUCgeE6Jg7woHhEPCgeiYHeEl164iCzyePkEJnbJYfL8kdHyCHzdvqyoS4OhGLqC5TU+t7RTSphOJBJJqwCfDDvBXeXU/Wn8JVPgx3wr/A3rf0lCXA0eShqN7x6n5pjG95E1G953UqKmO+nFJarbKXAUpPjIXMREBE5Y2/mj1B0PZezDfUDostntI1HEFp7rgQRxha7s231A6KDE5LTc4kk3TSVoOKajJtmGxTnnX3fabHzUNClV0UmEWa4LbOyCj4qJ2S0hzS6GXeeJT50O9S6habIP5zen6LO563v0+oWnyID0zen5J5cnL0Na8KB7Ua9igexMmI0AvCgeEc9iHexNYAF4SUz6aSNgPJo+QQ+cDuH65IoD5BD50PVn65KMuCyMPX9opifX9ophUhziTUk+kFgE2EJ1BaDLZ9LP+kqioC60WVxqH4ShIaJn6ofqd1Kh72rxVrUZd3UoMt9YE9CXuNdTfuVddna1ENIewl02KGq0+79eK7lTdytW4U9rPaez1VgoCTCIqYukPtBeQVs2rNFnLY9h8IMTRL6tzJHuTOVCJJmlqZjS+8EJWzOj94Kep2eoR7KB/gdH7qXvQ6CjzjFsfUZpM94LV5E3/uG9P0Vc7JaO+m6ssjbFdq2q2GqRt3BRPap3BRPCohAZ7VA9qKeFA8JkKwV7Uk9ySIDyD9EFnjjojhZH/8AxVdnXsFTlwVRiq/tFNCdWHeKQCkOMIUlEJhCkw+6yAEU1e5G6Xj8JVOxllddnWd/+koT4HhyDVG953UoIs9aFbYT0dRzoLiQTaIPiYnZKkXa39wADZ+kWEiBPiBv89k97CqI1+FJEQb7WnnZPwdDSIHIe8g7Ix7naZ7sgSeOngDYy7vcuS5+/hoDXuGuBAa0mSCYsRFxHvWvew6VVAOLomNj9Beifs2EYYz94lYWpXqb95rXCQXNgGByNoPvTMNmeLZOguiT7Nh3ZBFvHiUJOwKFHtZuLXVa5hWYodtgwBrmatoIm7jEi4gC5/2+assszoVNUkF8atLTsOXVToaiz02T8nHrmnqpKUObI4iYPCVzK2xWaniIzZOUTlM4KNwVUTB3KB4RTmqF7U6AwVwSUjmpIinjp/xVXnfs+Stj/iqnOD3CkZVGPrjvFcATqw7ydosojkL0qTSdk40ypMHusYmw9N072V/gahpS4AOdEaZv1McBMoGlDBqNusxx3i6mqaHAkRMiSCYIAkEA78Pcg1uNEGxQqOIlx5i/sidj7zH1BwrmmC2q/UQ3a5mTxO3j5FA1Kp1CXd4wSCdUg7gEXED5JuJoh0uazT7R0mZE2mSZ8kxi0ZmJrOLDpayBDoMm0xqjeTtPNNfRcHNu5rzJEaSBEkbWg2ib36BU+BqsZEx3jDgSQBY6Tbjfjt8VzG5hLiWCLgTq1Egczx9/FY1lpWr4hjw2rI1CW31CTA1bGD4zz3lT4Wg+iHCq4st6SZDgYkuIIO950qhfjnG5LiSIBJkAbiBwuu4THu1XuTvJMEAbHe0CFgWXNWgagaaVRrzeWus5hF3SPtbxZcZ6TDgukhwO4O0+HKbck0UzT016QI1GzWxPRwMkCYvcdDtJhdbi59Ud5ztPXadXutY7eC1BNr2DzatVc5tR+sEyLSQIuZHPpwW0wzIrtXmWTYzQS+idLxw7pBHGA434Cbr0HsrjH1msqVNOrU72diAfajgsgSXU3JTCuvMBRU6wJgKhITlE4IghRuCKACVCupYto0lJMCjxsnb8Kqc4b3PrmrgD/wBVVZzSinP1ulY5jaw7y6Gp1Qd5OeosdELgp8tZLlFU2TsMJDhMf8LGLavjmtG0EG0b+Jv9WUZzNziNTgBYFwHejcDhAHh+ap3v4Am+8phdwWDYccQHOECL6idifred0TiMY0iQWzbgQeG/x25KnJXWsJWsxx3gnMcOKNw+WkiYXX5S+JhLqQ2iQE+omalq8iyLXTl7bzbmp8T2Zbe3uQeRDLDJozWEzBzBpk6ZLo3ExEx08Vc4HNSTsHHkZkmbDafjxVNmGXmk7wQ9GpBCdOxGmnTL92JfTqA6r3iTNzbje3PkvR+wAaCaz4aX6YGwg3m+7tvILykUXDvloDeG+0xLRewK0+T5hLIk62xALgWkXENPjyPNE3KPoCqZbbigcE1+rvAQsr2P7WtFAU65d6RhLe9Yvi4LZ3F48lb1O19EcHe4qqV8EHtszSOUbgs2O2lLi1w8kBX7aA1AGCxgcRuiosGpGizifRmOY+aSEzLFVTRn0e8fNJMkA8vaNuiBzz+UQj6fDoUHn/8AKPRIOzDkd5dcF0+0pFFlECvbC7QMBx8E/ECykyzcrGAHjjzTQUbmlEh2qO6TAQQWMT4agXXVtg8FJFksExraYc6w3Ujc8DPZpyPE3Unb4LxUY8moyrKpHsyrdmSDaPgsplvbXSe82Ol1tMp7QU6w1N5bKTjJcnTGcZcEuHywAQBCWIwPmljO0DKQlyo8T2/oAwGud5AIKLfAXOMeQfNcpDhsshmWV+jGqLT7ls29rKNT2qZa3mED2qDThi+mZaSBPnFxwKeKlF7kp6JptGMqYqWaZO9/fNvrgFZ5RhcRUbFKm90mxAJmATpDo3iSqLivQP2W417cQKbZLHghw3bOmZjYEQF0HIajKKpr02GrS01GNDSXNgk87iQdpUtWkdla12EuMcygcXIIC6lsQe7K6sCeChoU++232h80e0TMkKJ9O1t0bFo9GxFVnoR3hsPmkvLc7w1elTDjVcQeGpJZQX1Db+gCzh0KDz7+UeiKaduhQedu9UeikOZDQpqLBxUbagCfIOyiyiFmBBaIQ+Xb/XNOxLkzLngOM/V0UZh2Y4cvYIIte/JUQC0hLXw2Zm3vUOKwHonhrIiASTyHM9ZSydMaMdQ+lagyRNvyUFPMIk6QY4RNup/5WlyrCscwNIkQE+p2VLnSx4Hl+hUFJXudXdyrYy9ZhqsNVtOGgxw5SYsCfcrv9ntNxrlkWgFWz+zhpsmpVL44XAVp+z/L9NQu02O3jCMpJqkaONp2yj/aBhXNqta1tiC4+/ZZeiRR0vqUyQZuA3h1BjfiF7T2syoP0uI2t7+CybuydWT6Ko5oPC8eUEH4oKVbMaWNvdGaGYNcAGgXAOio1rXQdiHNsfgrDPKZ/hzjpiHsPveB+i1WS9kNJ1VXazyLfzMn4o3PsOxlFwIGkQYgRYgoat9g6NqZ4bgajRUaXXbPe6H6nyXoXZvJKwxLKuGrj0TxrdUa2GNOsaqOkGA4gAEdLKJnZh+NbiPVhtWg6mKbWQA5rhJaeBtBG3zXovYrJf3bChrqbWVDJfAEuOzXOgnvaYm5vNzurqV7nHOOl0Nc0g25obMKR1Duo70ZgkE7/mlWwxc5sk7Lo1ENJVUaFjLYTH04iArH90IDrlRObAA3RUkBxK/tcPUsSRuY4b0zQ02hJMppBSMg3h0KCzv+UeiMbw6FB50PVHokMzHtF1IKcKJpup2OlRZREGJFlDhKOoojGNgJuXDvLIzLDCYMBzT4q1zChrfA3geY8Pig2GIPiujEaq7dW228ecwkyLeimJ1uTUsXG1rrQZTiiYkrKOB4kkzueP1ZXOTVLiSoSVHZCRpc6rD0UunTaY3jihst7aYdjmsZTADYFjwCWalj6ZYOIiyxoyI6iRP5rRqh5Np7I9Sq9u8JU9XUtIj6KmwePAHMcHcxwPmFg8n7LNqFr3iQDMc45rc4hzI07WjkhIMfYIxGYNOzoVbj6grsdR31At57gxA4njCzOah7XGHWVr2coVqha2mHXkueAYAGkQXbAnVz2B3SxTbBJpGr7IZd6Ok5x3JDeoYP/sR5K/GxXKGDbSptptmGiBO55k+JMlOd7JXVFUqPPyS1SbKr99pCQXjdPZj6G5qD3qrq0WHUDzKFexoHNWqP0J0y7q5hhwD6wGfFVOIzGiHjviEAzLSQe9uh8blzdIIdMKkYIVtlniM0owdLvmkqfDYJrgSXQktpQSma7bzQWcn1Xkihw80Hm59WeiADKtaiabEM10oiYCiyiIMZdRYD2k+rtdQ4KqA+6yAy6HDqmOd65qa7EtMBpur7sNlDMRiH+kuGtlCS8VjQ4opsQfmuYbFFu26mzI021KjAdnOAHRVZKXItyuJ0g1uNxDnQ0hvU/KyMwmCxbu82qJ8XObPwgqrGIJ3R2GxVT7Dnf0yk46HRBrqXFDLcZGo4kMP46h/Rdd+8+07E6w3m2J6GZVecU+fWPefBxKmq1nvAAbASyZRtPgnxOJNSJ4b+K9V7E4X0WFbNi/vn+qNPwAXmvZbLm1cRSY+7dQ1Dn/p6L2FggpsaOXtEnwTVXyLJmiQQu1HwF2mZVTmozz8kqyTIufFN/gNTmFpPRlDYqsxgu6EneFKKmnk1UcQoKmRPg3F/BWIzql95SsxLHnuuBRWZo2mzO/8AT7x9oe5JaaqxdSvPIOhHj4dt5oPNz6ryKn1beaEzZ3qvIrrIGawzZRcILBlFkqLHXAPixCGwlMF6MxrO7KFwHtooDLGpRa0Awtp+yR018R+AfmsZjfY+ua0X7OM3Zhq1QOaSXsAECdp/VZ0mGCb2RUZnRHpqpj7bz8Sqlxgq8zpuj1jjBqvJYN5BdBPTcdehikrNU5tN7F1jlBVLkKovaQrbAYlrdrLNAwnsxJHA+9TcbHU6NzTxFJ28GOaEzLMmjusElZqliHmwsrLBYa8m6m40VU74NX2PeGVGPcYAcHE8gLn816s3deSYJ2ljjya4/wBpWryjP6rMBSrwH6YpOB3+7TdI4EjSd4Ino2OXI0uzSypOPN19zXVWqSiqLJ+1lDEwDNN0atL9iJiQ4WN5Hgrt21riLEbKyp8HHlw5MTqaoAxmZhrtAKzmbUHukh0qLEv9a4E3kp2mxglPGGlXQmpN1ZV0KjZ7yKoMJdqa7TGyhdgC72VIzB1GEC7unBLJakNwaDLs0tFQ3SWMzfO20qmhzST4LiisLe4XJFAX7eaFzZ00vJEgbeaGzNnq/JdhAzmDdCPJQmX0C8w1pceQE+/kr6jkLj/NfpH3Ww53v2HxUZSS5OnB2bLm8kbKPG1hEJ+T4Go90tpuI5wdP+42Wpw2Cw7D3WNLh9qp3j1vYeSfi8RPtVndGHSPfwSd79D08fwZ85Jfb+WVdbLxbW9rfAEav0+auchwTHCpVcCMPSALw32qzj/Log8XOJHSRxIIoKmK1vDKbS4k6QSS4uJsAJ5khbrHtbQfh8G0jTh2Pxlc/fexpLSfDXeDwLeSFuTtjTji7OtOLl9etdf4MB2wx7qmLhxHcIZDbNBbZwaPugy0f6WtQbiq+u8l8kydyfGUWHLNHmzfjZwhTUGDimORWHhBsCRLQpK3wghV1OoOAUn7zCm7ZVOiyzLGaaThxcNA/qsfhK1GQ05wFameOC9NHizE4lzSPHb3LzrFVHOeybNu4eNokeHivWchw8E0jv8AwymD1cahPxcnhGjsxzrFq9f0r+TzvDuc4Ogw9h9K38Lx3x77+assNj61NnpsO8sEy5rdg4bgji0qqwz9FSm/mNLujrfOFYUPVVHNPsOmR4KZ9DoTTizQZBjaeKJqE6X/AG28J5g8B4fFXuMy+pTbrA1NOxBleXYbE/u2IBaZY7YjYgr0HB5m5oD2GRYuZNiOY8V0QztPxHg9p+EwyW8Wz+nT/BqMuwDtAJpEE9ES2k5hj0YUWA7UMcBq7oNtQ2B5PG7euyNquaTq1z0NlaMk+Dxc2DLidTVHlfbHKq1XFyykTbht711eoCtTBuL9EkdkRtniNM7KSpSDhpdw3HG+wQL8WGx1B8gUzEYwmTMl28ePNQnlfCPf7H8MivHm+38ltRa1jdLIYOTR8UDiMWWyAZ8d1XUqpJdJlKq6VGj2lNafCqOuxLnHePiVDiHRaZJ4zsuzCgBkonNklt7mn/Z3gPSY1pPs0gah6iA34kH+lG18X6SlmWM4PIw9P8JIB/tLFF2HeaeFx9cbinA8Doe75lqizH1eTUAP/LWLj4wXx/6tVEtvuePllqyP3S/cymDyt1UOc25BjTztNvFcrUiNwQRuNiFq+z2Ga2g3UPakgg7ybR47WROLwrX2LQ/heWvHmLnzVO7tJo8+eRa2YzDjUE9hjitBRySmDZtUTyuPkp25LSmTT83En+0wD7kvdSN3iopMHTNQwwE9OHU7DzVvQygNBc7vuA2/8bfxH7Xy6q4pUWAARPICzfC0ASpMXh3lkey3lG/9P6+5UjhS3Yksrexi3g1K5AOomGzzLjAjwXseWkfxLFt4Mw9NnQQD+a8syqkP36k0bGtRH94/VbXNM2GHxWZme+9tKmzn3mAOI6C/WFGTqV+v7M9nFilPFGEeXF/nKJh6gGg8xTMdYn8kc6qKlNr+IbfxsqvXLo/0vnzaU/Kak0o5WUT6DV8yv92/6CYikXU3EX0unpYT7/yV/wBn8wJYL3Cp8udNSow7OE+6yZlVQsfp8StRBNa7+tr8UzaMxmg6gLGz28wrvA4/SBpdLDceHgVkDXspcBiS0xNj9R1WToOTHGapo3jcXrvqgjhZcWVOYBtwb/BdVO8Z5c/hONu06POK1cGFNTqAgjiq+pv5KTVEFCh4Z3qbYXTNz0C7KjDr+SQKU6VLajtR3BRhcm6SJFyt2bLJRoyfFv8AvP0j3U2/mVB2ufpy/L6fNhf/AGtP+adSxA/gtVvEVmtPm5jgfgfco+34huDp/doD4hg/xVf6fwPKa+bv/c/0LDKKXqGNMEaBMieHJEOwP3SQL8nD+7byU+EYWsa3aw6bIkkx8oi3jdddbHlSduyubg3W7wH9Jn4ORTMCOLja3sj4yCjWi9wNlI2nyjhy+HJahbO4ei1pkCfGdR+rIPOHWPDzVlTYTfl0VF2nrRTdFjG9kG6Q0Fqkl9TNZJim0sWytU9hlTWYiTp2ABNzICLzrGHE1qtcgM1nUGkyRADRPkPmswHPDpBJPvKJ1O2dxvE36lefJ2fYdkUMdWnaVWOon1oi4g38jKdljoLh4qOlVIqDxB+SbSdDnpS6atP1f6HGVNOIB5yPgpSfWT4oDGVO81yJa+bpyEMi1yj639y5dVsoP3oj65cVC6t3eiEfUQo6ZTSLUY8Bl3QZjn4rqpKrwYv/AMJLUc7ztcAOLdJlOaZaoy6Wg+SWGdYhU6Hkqd5P/RPRdfyUj3Ieibp7ilaOiGTwDmrrnfouNKbPeA8SfcEAt0go4l7ab6Y9l5a4jxZMR/uPvWo/aAP+8oU/u06Y99Rw/ILI6rkFWbMW+riKL6lQEt0Nk8meySeKaL6Es+O3rj0s3dEE2/LgFNEeHEf8IYX0kQb7z8uCnp3O23Lqu8+eYV6M2J+P/wCKSjTGydTaeM/IH3qcMgWH5lYQT7Dy8PBYrtfV7pHTh+q2dV5M/Z4rH9raUsd9eKWXBTE6lZkatQi45rpzEaSDTAJ4hMIkDyPwTtAjZecfYp5HvF0RYd8vHmpXbuUFH+YFNW3PRZgxvwP3/YDxxsOqlovsh8abJ9I91P0OJT+dL2JKVWHRwKe56DLu8EQStQ8Mraa9RySi18vNJCja4gtHi3mm0nQ5PxLYOodUypvPmqnmSuDr+1/kTj2k8KJhunpGdUGOLkmHvjofiVHKkoe0fAALDKVyS9Rztz0XGcPL4LpPeKQ+uCAz3ZoOzGYvbUbTLu66bG8GCQRy2+K3WHaDxk+J4Ly/D13UnNfGzgJm0EwfHmvUcGWlszfbptwXVg8p5XxGu843rcOYyec8I+YB2T6jjw4Dp9BVrc5oF5p+kbIIb4ajMMDttVjbe2ybiM/oNqiiTDuf2RyDjNj+qs2lycUMc5uoqw4g7x57fBUfaCjqY7wTndqsOfSb9ydO3rIMQyNpPznmuZVmNHGFrC4MLjBYXXgS52nnYG/v8VUoydJln2bNBapRex5+028bj3GyTatvFWXarLxh8S+mDInUBuQ0kgSedp81Stqc1xThpk0fRdnz3ji/QVF3rAia/wCSCovl8o2tt70j5K4HeOXuVuKKfTPdUdddYe6Oqp0PO1fMb9BhPeU1R1kOTdSFsxyRaEjJ70S0Ggjw+aSkpieiSSzthjWnhMgAkQh3tsRyRFMrlccfenT3OLJFShZHRKlJUGHUjys1uDHLwWJv15qXDG7j4qFhv5/JSYXYoPgfE/GvxHv3Kkp+ShJ+Smw4kx7vklospLVb9y4rZY44Ko4iCYcwblwadwN43v8ANcwDcWXuIfpZWaC533Pwjg4C3mrzBNIYJN4jffwTXGGwbLvjUVSPEzTeSbk+pV5b2ZdUYaVTEANDi5gYNnGBrfME2G3xWs/6aoeibSIJIl3pAfWEn2iXEXn62WeoOcHy2bdeC2FCqXMHTpcW3ugqfQnqlB3FkYyuhqY/0YBpgBt7W2nmR4qAZfQp1DUZTAcTJdyM303gcdgjAOB+JKie4RB/Iz57pkkhXkm1TbM3+1DDxi9Y2exvyj/FY0uPBa/thTLmapJ0xBJJMDhfgsY50cFzZ952er2LJ8qvocpugko4vlsjkq6mZlTUancPmoyR29ny1t0dkFYrrDYJtVdBsm6HJfjYwboilsUK0qeibLSBgluTDlMJIZy6hRbvvQ7RKlekkszY/IC0dynuSSTPk5oeQ4z8ipcP7KSSDK4fMvZ/scYUblQl7ZXUllyhZeSXsazWQ0QUMDM+aSS6jzmS4T2/IfFafCnutXUk0ScxA7niP0TYtPgkkiIUWf3pPnl+SwLv0SSXPm5R6HY/KyOlxT6XslJJSZ1Y+nsyKql9lJJEm/MyMIlmy4ktIGDklaEkkkh3R4P/2Q==',
-    lastCall: '2024-02-01'
-  }
-];
-
-export default function Home() {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [catchUpContacts, setCatchUpContacts] = useState<Contact[]>([]);
+const Contacts = () => {
+  const [closeContacts, setCloseContacts] = useState<Contact[]>([]);
+  const [otherContacts, setOtherContacts] = useState<Contact[]>([]);
+  const [catchUpContact, setCatchUpContact] = useState<Contact | null>(null);
 
   useEffect(() => {
-    setContacts(contactsData); // Set the original list
-    const sortedContacts = [...contactsData].sort((a, b) => {
-      return new Date(a.lastCall).getTime() - new Date(b.lastCall).getTime();
-    });
-    setCatchUpContacts(sortedContacts); // Set the sorted list for "Catch Up"
+    // Filter out close contacts and sort them by last call date
+    const filteredCloseContacts = contactsData.filter(contact => contact.close);
+    const sortedCloseContacts = filteredCloseContacts.sort((a, b) => new Date(a.lastCall).getTime() - new Date(b.lastCall).getTime());
+
+    // Filter out non-close contacts and sort them by last call date
+    const filteredOtherContacts = contactsData.filter(contact => !contact.close);
+    const sortedOtherContacts = filteredOtherContacts.sort((a, b) => new Date(a.lastCall).getTime() - new Date(b.lastCall).getTime());
+
+    setCloseContacts(sortedCloseContacts);
+    setOtherContacts(sortedOtherContacts);
+
+    // Optionally set the catch up contact from the close contacts list if desired
+    setCatchUpContact(sortedCloseContacts[0]);
   }, []);
+
   return (
-    <div>
-      <>
+    
+    <>
       <Navbar />
+      <div className='h-screen'>
       <section className="container mx-auto px-4 mb-10">
-        <h1 className="text-3xl font-bold text-center mt-4 mb-2">Contacts</h1>
+        <h1 className="text-3xl font-bold text-center mt-4 mb-6">Close Contacts</h1>
         <div className="flex flex-wrap justify-center gap-4 mb-2">
-          {contacts.map((contact) => (
+          {closeContacts.map(contact => (
             <ContactsCard key={contact.id} contacts={contact}/>
           ))}
         </div>
       </section>
 
       <section className="container mx-auto px-4 mb-10">
-        <h1 className='text-3xl font-bold text-center'>Catch Up</h1>
+        <h1 className='text-3xl font-bold text-center mb-6'>Catch Up</h1>
         <div className="flex flex-wrap justify-center gap-4 mb-2">
-        {contacts.map((contact) => (
-          <div className="flex flex-col w-full sm:w-1/2 lg:w-1/3 p-4"> {/* Ensures consistent sizing */}
-            <ContactsCard key={contact.id} contacts={contact}/>
-          </div>
-        ))}
-      </div>
+          {catchUpContact && <CatchUpCard key={catchUpContact.id} contact={catchUpContact} />}
+        </div>
       </section>
+      </div>
+    
     </>
-      
-    </div>
   );
 }
+
+export default Contacts;
