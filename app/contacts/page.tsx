@@ -1,5 +1,6 @@
 "use client"
 import ContactsCard from '@/components/contacts/contacts-card'
+import Footer from '@/components/ui/footer'
 import Navbar from '@/components/ui/navbar'
 import React, { useState } from 'react'
 const contactsData: contacts[] = [
@@ -20,14 +21,15 @@ const contacts = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto px-4">
+      <section className="container mx-auto px-4 min-h-screen">
         <h1 className="text-3xl font-bold text-center my-6">Contacts</h1>
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {contacts.map((contact) => (
             <ContactsCard key={contact.id} contacts={contact}/>
           ))}
         </section>
-      </div>
+      </section>
+
     </>
   )
 }
