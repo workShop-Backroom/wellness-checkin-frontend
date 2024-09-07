@@ -4,7 +4,7 @@ import ConnectDictation from "@/components/connect/ConnectDictation";
 const Connect = () => {
 
   return (
-      <div>
+      <div className="min-h-screen bg-base-100">
           <ConnectDictation />
       </div>
   );

@@ -1,9 +1,11 @@
 "use client";
 import 'regenerator-runtime/runtime'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-
+import {useEffect} from "react";
+import { useRouter } from 'next/navigation'
 
 const ConnectDictation = () => {
+    const router = useRouter()
     const {
         transcript,
         listening,
@@ -15,13 +17,19 @@ const ConnectDictation = () => {
         return <span>Browser doesn't support speech recognition.</span>;
     }
 
+    useEffect(() => {
+        SpeechRecognition.startListening({ continuous: true });
+    }, []);
+
+    const endCall = () => {
+        SpeechRecognition.stopListening();
+        router.back()
+    }
+
     return (
-        <div>
-            <p>Microphone: {listening ? 'on' : 'off'}</p>
-            <button onClick={() => SpeechRecognition.startListening({ continuous: true })}>Start</button>
-            <button onClick={SpeechRecognition.stopListening}>Stop</button>
-            <button onClick={resetTranscript}>Reset</button>
-            <p>{transcript}</p>
+        <div className="min-h-screen flex flex-col justify-around justify-items-center">
+            <p className="">{transcript}</p>
+            <button className="btn" onClick={endCall}>Stop</button>
         </div>
     );
 };
