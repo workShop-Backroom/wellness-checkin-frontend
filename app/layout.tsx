@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import 'regenerator-runtime/runtime'
 import localFont from "next/font/local";
 import "./globals.css";
 
