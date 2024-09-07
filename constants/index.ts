@@ -13,7 +13,7 @@ export const contactsData: Contact[] = [
       name: 'John Doe',
       image: 'https://static.vecteezy.com/system/resources/thumbnails/037/319/213/small/happy-african-american-man-smiling-outdoor-portrait-of-young-happy-man-on-street-in-city-cheerful-joyful-handsome-person-guy-looking-at-camera-freedom-happiness-carefree-happy-people-concept-photo.jpg',
       lastCall: '2023-02-01',
-      callType: 'Real Person',
+      callType: 'Human',
       close: false,
     },
     {

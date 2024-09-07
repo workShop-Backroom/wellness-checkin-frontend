@@ -24,7 +24,7 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                 <li><a href='./user-profile'>Profile</a></li>
                 <li>
-                <a>Contacts</a>
+                <a href='./contacts'>Contacts</a>
                 {/* <ul className="p-2">
                     <li><a>Submenu 1</a></li>
                     <li><a>Submenu 2</a></li>
@@ -38,7 +38,7 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
             <li><a href='./user-profile'>Profile</a></li>
-            <li><a>Contacts</a></li>
+            <li><a href='./contacts'>Contacts</a></li>
             <li><a>Chat</a></li>
             </ul>
         </div>
