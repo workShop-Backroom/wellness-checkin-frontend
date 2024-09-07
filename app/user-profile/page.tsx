@@ -54,8 +54,8 @@ const UserProfile = () => {
   return (
     <>
       <Navbar />
-      <div className="container flex justify-center mt-10 mb-10 h-screen">
-        <div className="container w-full max-w-md p-4 bg-base-300 rounded-lg">
+      <div className="flex justify-center mt-10 h-screen">
+        <div className="w-full max-w-md p-4 rounded-lg">
           <h1 className="text-3xl font-bold text-center">User Profile</h1>
           <div className="mt-4 mb-2 flex flex-col items-center">
             <div onClick={triggerFileInput} className="cursor-pointer w-48 h-48 bg-gray-200 rounded-lg overflow-hidden relative">
