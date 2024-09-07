@@ -1,6 +1,9 @@
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
 const Navbar = () => {
+    const router = useRouter();
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -27,7 +30,15 @@ const Navbar = () => {
             <li><a href='/chat'>Chat</a></li>
           </ul>
         </div>
-        <a href='/' className="btn btn-ghost text-xl">WellChecked</a>
+
+        <Image onClick={() => {router.push('/')}}
+            src="/assets/logo.svg"
+            alt="logo"
+            width={200}
+            height={200}
+            className='cursor-pointer btn btn-ghost'
+         />
+
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
