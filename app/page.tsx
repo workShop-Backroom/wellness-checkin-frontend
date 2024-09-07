@@ -1,9 +1,12 @@
+import ContactsCard from "@/components/contacts/contacts-card";
+import Navbar from "@/components/ui/navbar";
 import Image from "next/image";
 
 export default function Home() {
   return (
     <div>
-      <h1>Wellness Check-In</h1>
+      <Navbar/>
+      
     </div>
   );
 }
