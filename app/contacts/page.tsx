@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/ui/navbar';
-import ContactCard from '@/components/contacts/compact-contacts-card'; // Update the import path as needed
+import ContactCard from '@/components/contacts/compact-contacts-card'; 
 import { Contact, contactsData } from '@/constants';
 import { useRouter } from 'next/navigation';
 

@@ -16,8 +16,11 @@ const ContactsCard: React.FC<CardProps> = ({ contacts }) => {
   const handleCardClick = () => {
     router.push(`/contacts/${contacts.id}`); 
   };
+  const handleButtonClick = () => {
+    router.push(`/connect/${contacts.id}`);  
+  };
   return (
-    <div onClick={handleCardClick} className="card bg-base-100 shadow-xl rounded-lg overflow-hidden w-80 cursor-pointer"> 
+    <div className="card bg-base-100 shadow-xl rounded-lg overflow-hidden w-80"> 
       <div className="relative w-full h-48"> 
         <img 
           src={contacts.image} 
@@ -28,7 +31,7 @@ const ContactsCard: React.FC<CardProps> = ({ contacts }) => {
       <div className="card-body">
         <h2 className="card-title text-center">{contacts.name}</h2>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Call</button>
+          <button onClick={handleButtonClick} className="btn btn-primary">Call</button>
         </div>
       </div>
     </div>
