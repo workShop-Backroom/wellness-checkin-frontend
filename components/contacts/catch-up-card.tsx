@@ -16,7 +16,7 @@ const CatchUpCard: React.FC<CatchUpCardProps> = ({ contact }) => {
   const daysSinceLastCall = Math.ceil((new Date().getTime() - new Date(contact.lastCall).getTime()) / (1000 * 3600 * 24));
   const router = useRouter();
   const handleCardClick = () => {
-    router.push(`/contacts/connect/${contact.id}`); 
+    router.push(`/connect/${contact.id}`); 
   };
   return (
     <div onClick={handleCardClick} className="card flex-row items-center bg-base-100 shadow-xl p-4 cursor-pointer">
