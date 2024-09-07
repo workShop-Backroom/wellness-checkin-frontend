@@ -31,7 +31,7 @@ const Contacts = () => {
     
     <>
       <Navbar />
-      <div className='h-screen'>
+  
       <section className="container mx-auto px-4 mb-10">
         <h1 className="text-3xl font-bold text-center mt-4 mb-6">Close Contacts</h1>
         <div className="flex flex-wrap justify-center gap-4 mb-2">
@@ -42,12 +42,13 @@ const Contacts = () => {
       </section>
 
       <section className="container mx-auto px-4 mb-10">
-        <h1 className='text-3xl font-bold text-center mb-6'>Catch Up</h1>
-        <div className="flex flex-wrap justify-center gap-4 mb-2">
-          {catchUpContact && <CatchUpCard key={catchUpContact.id} contact={catchUpContact} />}
-        </div>
-      </section>
-      </div>
+          <h1 className='text-3xl font-bold text-center mb-6'>Catch Up</h1>
+          <div className="flex justify-center">
+            <div className="w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mb-10">
+              {catchUpContact && <CatchUpCard key={catchUpContact.id} contact={catchUpContact} />}
+            </div>
+          </div>
+        </section>
     
     </>
   );
