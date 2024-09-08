@@ -31,14 +31,7 @@ const Navbar = () => {
             <li><a href='/chat'>Chat</a></li>
           </ul>
         </div>
-
-        <Image onClick={() => {router.push('/')}}
-            src="/assets/logo.svg"
-            alt="logo"
-            width={200}
-            height={200}
-            className='cursor-pointer btn btn-ghost'
-         />
+        <a href='/' className="btn btn-ghost text-xl">{"{wellChecked}"}</a>
 
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -49,7 +42,6 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        {/* <a className="btn mr-2">Login</a> */}
         <a className="btn">Logout</a>
       </div>
     </div>

@@ -9,16 +9,15 @@ const ContactsPage = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
 
   useEffect(() => {
-    // Sort contacts alphabetically by name
     const sortedContacts = [...contactsData].sort((a, b) => a.name.localeCompare(b.name));
     setContacts(sortedContacts);
   }, []);
 
   const router = useRouter();
 
-  // Move the handleCardClick inside the map for individual contact
+  
   const handleCardClick = (id: string) => {
-    router.push(`/contacts/${id}`); // Use the contact's ID to route to its page
+    router.push(`/contacts/${id}`); 
   };
 
   return (
@@ -29,7 +28,7 @@ const ContactsPage = () => {
           {contacts.map(contact => (
             <div 
               key={contact.id} 
-              onClick={() => handleCardClick(contact.id)} // Call the click handler with the contact ID
+              onClick={() => handleCardClick(contact.id)} 
               className="cursor-pointer"
             >
               <ContactCard contact={contact} />

@@ -15,23 +15,19 @@ const ConnectDictation = () => {
   const [muted, setMuted] = useState(false);
   const [speaker, setSpeaker] = useState(false);
 
-  // SpeechRecognition setup
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
-  // Fetch the contact information based on the ID
   useEffect(() => {
     const foundContact = contactsData.find((c) => c.id === id);
     setContact(foundContact || null);
 
-    // Start listening when component mounts
     SpeechRecognition.startListening({ continuous: true });
 
     return () => {
-      SpeechRecognition.stopListening(); // Stop listening when component unmounts
+      SpeechRecognition.stopListening();
     };
   }, [id]);
 
-  // Handle Mute toggle
   const toggleMute = () => {
     setMuted(!muted);
     if (muted) {
@@ -41,12 +37,10 @@ const ConnectDictation = () => {
     }
   };
 
-  // Handle Speaker toggle (for demonstration, we are just changing the state)
   const toggleSpeaker = () => {
     setSpeaker(!speaker);
   };
 
-  // End the call and go back
   const endCall = () => {
     SpeechRecognition.stopListening();
     router.back();
@@ -71,7 +65,7 @@ const ConnectDictation = () => {
             <div className="flex flex-col justify-between h-full p-4">
               {/* Contact Name and Call Type */}
               <div className="text-center py-4">
-                <h1 className="text-2xl font-bold mb-2">{contact.name}</h1>
+                <h1 className="text-2xl font-bold mb-2 text-gray-200">{contact.name}</h1>
                 <p className="text-lg text-gray-500">{contact.callType === "AI" ? "AI Call" : "Voice Call"}</p>
               </div>
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/ui/navbar';
 import ContactsCard from '@/components/contacts/contacts-card';
-import CatchUpCard from '@/components/contacts/catch-up-card'; // Assuming you have this component from the previous instructions
+import CatchUpCard from '@/components/contacts/catch-up-card';
 import { Contact, contactsData } from '@/constants';
 
 const Contacts = () => {
@@ -12,18 +12,15 @@ const Contacts = () => {
   const [catchUpContact, setCatchUpContact] = useState<Contact | null>(null);
 
   useEffect(() => {
-    // Filter out close contacts and sort them by last call date
     const filteredCloseContacts = contactsData.filter(contact => contact.close);
     const sortedCloseContacts = filteredCloseContacts.sort((a, b) => new Date(a.lastCall).getTime() - new Date(b.lastCall).getTime());
 
-    // Filter out non-close contacts and sort them by last call date
     const filteredOtherContacts = contactsData.filter(contact => !contact.close);
     const sortedOtherContacts = filteredOtherContacts.sort((a, b) => new Date(a.lastCall).getTime() - new Date(b.lastCall).getTime());
 
     setCloseContacts(sortedCloseContacts);
     setOtherContacts(sortedOtherContacts);
 
-    // Optionally set the catch up contact from the close contacts list if desired
     setCatchUpContact(sortedCloseContacts[0]);
   }, []);
 
