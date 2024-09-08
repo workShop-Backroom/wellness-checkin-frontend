@@ -1,5 +1,5 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { contactsData, Contact } from "@/constants";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -8,12 +8,17 @@ import Navbar from "@/components/ui/navbar";
 const ContactPage = () => {
   const { id } = useParams();
   const [contact, setContact] = useState<Contact | null>(null);
+  const router = useRouter();
 
   // Fetch the contact information based on the ID
   useEffect(() => {
     const foundContact = contactsData.find((c) => c.id === id);
     setContact(foundContact || null);
   }, [id]);
+
+  const handleButtonClick = (contactId: string) => {
+    router.push(`/connect/${contactId}`); 
+  };
 
   if (!contact) {
     return <div>No contact information available</div>;
@@ -69,7 +74,7 @@ const ContactPage = () => {
 
             {/* Buttons for call and message */}
             <div className="mt-6 space-x-4">
-              <button className="btn btn-primary">Call</button>
+              <button className="btn btn-primary" onClick={() => handleButtonClick(contact.id)}>Call</button>
               <button className="btn btn-secondary">Message</button>
             </div>
 
