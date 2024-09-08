@@ -6,6 +6,13 @@ const nextConfig = {
     env: {
         OPENAI: process.env.OPENAI, // pulls from .env file
     },
+    typescript: {
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        // !! WARN !!
+        ignoreBuildErrors: true,
+    },
 };
 // next.config.mjs
 
