@@ -1,4 +1,5 @@
 "use client";
+export const runtime = "edge";
 import 'regenerator-runtime/runtime';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useEffect, useState } from "react";
