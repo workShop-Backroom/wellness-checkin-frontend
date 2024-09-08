@@ -1,4 +1,5 @@
 "use client";
+export const runtime = "edge";
 import { useParams, useRouter } from "next/navigation";
 import { contactsData, Contact } from "@/constants";
 import Image from "next/image";
