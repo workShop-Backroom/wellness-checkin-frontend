@@ -10,7 +10,6 @@ const ContactPage = () => {
   const [contact, setContact] = useState<Contact | null>(null);
   const router = useRouter();
 
-  // Fetch the contact information based on the ID
   useEffect(() => {
     const foundContact = contactsData.find((c) => c.id === id);
     setContact(foundContact || null);
