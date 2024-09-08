@@ -26,7 +26,6 @@ const ContactPage = () => {
 
   return (
     <>
-      <Navbar />
       <div className="container mx-auto px-4 py-8">
         <div className="card bg-base-100 shadow-xl p-6 max-w-lg mx-auto">
           {/* Full Image */}
