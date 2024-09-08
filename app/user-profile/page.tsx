@@ -53,7 +53,6 @@ const UserProfile = () => {
 
   return (
     <>
-      <Navbar />
       <div className="flex justify-center mt-10 h-screen">
         <div className="w-full max-w-md p-4 rounded-lg">
           <h1 className="text-3xl font-bold text-center">User Profile</h1>

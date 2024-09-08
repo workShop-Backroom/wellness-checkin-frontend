@@ -30,8 +30,6 @@ const Contacts = () => {
   return (
     
     <>
-      <Navbar />
-  
       <section className="container mx-auto px-4 mb-10">
         <h1 className="text-3xl font-bold text-center mt-4 mb-6">Close Contacts</h1>
         <div className="flex flex-wrap justify-center gap-4 mb-2">
