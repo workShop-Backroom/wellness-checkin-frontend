@@ -74,10 +74,10 @@ const ConnectDictation = () => {
               <div className="flex justify-center">
                 <div className="w-32 h-32 rounded-full relative border-4 border-gray-500 overflow-hidden">
                   <Image
-                    src={contact.image}
-                    alt={contact.name}
-                    fill
-                    className="object-cover"
+                      src={contact.image}
+                      alt={contact.name}
+                      fill
+                      className="object-cover"
                   />
                 </div>
               </div>
@@ -86,29 +86,29 @@ const ConnectDictation = () => {
               <div className="flex justify-center items-center space-x-8 py-8">
                 {/* Mute Button */}
                 <button
-                  onClick={toggleMute}
-                  className={`btn btn-circle ${muted ? "btn-error" : "btn-primary"}`}
+                    onClick={toggleMute}
+                    className={`btn btn-circle ${muted ? "btn-error" : "btn-primary"}`}
                 >
-                  <MicrophoneIcon className="h-6 w-6" />
+                  <MicrophoneIcon className="h-6 w-6"/>
                 </button>
 
                 {/* End Call Button */}
                 <button
-                  onClick={endCall}
-                  className="btn btn-circle btn-error bg-red-500 hover:bg-red-600 text-white"
+                    onClick={endCall}
+                    className="btn btn-circle btn-error bg-red-500 hover:bg-red-600 text-white"
                 >
-                  <XIcon className="h-8 w-8" />
+                  <XIcon className="h-8 w-8"/>
                 </button>
 
                 {/* Speaker Button */}
                 <button
-                  onClick={toggleSpeaker}
-                  className={`btn btn-circle ${speaker ? "btn-accent" : "btn-primary"}`}
+                    onClick={toggleSpeaker}
+                    className={`btn btn-circle ${speaker ? "btn-accent" : "btn-primary"}`}
                 >
                   {speaker ? (
-                    <VolumeUpIcon className="h-6 w-6" />
+                      <VolumeUpIcon className="h-6 w-6"/>
                   ) : (
-                    <VolumeOffIcon className="h-6 w-6" />
+                      <VolumeOffIcon className="h-6 w-6"/>
                   )}
                 </button>
               </div>
@@ -120,10 +120,19 @@ const ConnectDictation = () => {
 
               {/* AI Notice */}
               {contact.callType === "AI" && (
-                <div className="text-center py-2">
-                  <p className="text-sm text-red-500">This is an AI-generated call. The real person is not involved.</p>
-                </div>
+                  <div className="text-center py-2">
+                    <p className="text-sm text-red-500">This is an AI-generated call. The real person is not
+                      involved.</p>
+                  </div>
               )}
+
+              <audio
+                  controls
+                  src="/assets/sample_voice.m4a">
+                Your browser does not support the
+                <code>audio</code> element.
+              </audio>
+
             </div>
           </div>
         </div>
